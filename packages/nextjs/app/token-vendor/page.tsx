@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { AddressInput } from "@scaffold-ui/components";
+import { IntegerInput } from "@scaffold-ui/debug-contracts";
+import { useWatchBalance } from "@scaffold-ui/hooks";
 import type { NextPage } from "next";
 import { formatEther } from "viem";
 import { useAccount } from "wagmi";
-import { AddressInput } from "@scaffold-ui/components";
-import { IntegerInput } from "@scaffold-ui/debug-contracts";
 import { useDeployedContractInfo, useScaffoldReadContract, useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
-import { useWatchBalance } from "@scaffold-ui/hooks";
 import { getTokenPrice, multiplyTo1e18 } from "~~/utils/scaffold-eth/priceInWei";
 
 const TokenVendor: NextPage = () => {
@@ -33,18 +33,18 @@ const TokenVendor: NextPage = () => {
   const { writeContractAsync: writeVendorAsync } = useScaffoldWriteContract({ contractName: "Vendor" });
   const { writeContractAsync: writeYourTokenAsync } = useScaffoldWriteContract({ contractName: "YourToken" });
 
-  // const { data: vendorTokenBalance } = useScaffoldReadContract({
-  //   contractName: "YourToken",
-  //   functionName: "balanceOf",
-  //   args: [vendorContractData?.address],
-  // });
+  const { data: vendorTokenBalance } = useScaffoldReadContract({
+    contractName: "YourToken",
+    functionName: "balanceOf",
+    args: [vendorContractData?.address],
+  });
 
-  // const { data: vendorEthBalance } = useWatchBalance({ address: vendorContractData?.address });
+  const { data: vendorEthBalance } = useWatchBalance({ address: vendorContractData?.address });
 
-  // const { data: tokensPerEth } = useScaffoldReadContract({
-  //   contractName: "Vendor",
-  //   functionName: "tokensPerEth",
-  // });
+  const { data: tokensPerEth } = useScaffoldReadContract({
+    contractName: "Vendor",
+    functionName: "tokensPerEth",
+  });
 
   return (
     <>
@@ -57,8 +57,8 @@ const TokenVendor: NextPage = () => {
               <span className="font-bold ml-1">{yourTokenSymbol}</span>
             </div>
           </div>
-          {/* Vendor Balances */}
-          {/* <hr className="w-full border-secondary my-3" />
+          Vendor Balances
+          <hr className="w-full border-secondary my-3" />
           <div>
             Vendor token balance:{" "}
             <div className="inline-flex items-center justify-center">
@@ -69,11 +69,10 @@ const TokenVendor: NextPage = () => {
           <div>
             Vendor eth balance: {Number(formatEther(vendorEthBalance?.value || 0n)).toFixed(4)}
             <span className="font-bold ml-1">ETH</span>
-          </div> */}
+          </div>
         </div>
-
-        {/* Buy Tokens */}
-        {/* <div className="flex flex-col items-center space-y-4 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 mt-8 w-full max-w-lg">
+        Buy Tokens
+        <div className="flex flex-col items-center space-y-4 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 mt-8 w-full max-w-lg">
           <div className="text-xl">Buy tokens</div>
           <div>{tokensPerEth?.toString() || 0} tokens per ETH</div>
 
@@ -98,8 +97,7 @@ const TokenVendor: NextPage = () => {
           >
             Buy Tokens
           </button>
-        </div> */}
-
+        </div>
         {!!yourTokenBalance && (
           <div className="flex flex-col items-center space-y-4 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 mt-8 w-full max-w-lg">
             <div className="text-xl">Transfer tokens</div>
@@ -130,9 +128,8 @@ const TokenVendor: NextPage = () => {
             </button>
           </div>
         )}
-
-        {/* Sell Tokens */}
-        {/* {!!yourTokenBalance && (
+        Sell Tokens
+        {!!yourTokenBalance && (
           <div className="flex flex-col items-center space-y-4 bg-base-100 shadow-lg shadow-secondary border-8 border-secondary rounded-xl p-6 mt-8 w-full max-w-lg">
             <div className="text-xl">Sell tokens</div>
             <div>{tokensPerEth?.toString() || 0} tokens per ETH</div>
@@ -180,7 +177,7 @@ const TokenVendor: NextPage = () => {
               </button>
             </div>
           </div>
-        )} */}
+        )}
       </div>
     </>
   );

@@ -27,7 +27,7 @@ const deployVendor: DeployFunction = async function (hre: HardhatRuntimeEnvironm
    * Student TODO:
    * - Put the address you’re using in the frontend here (leave "" to default to the deployer)
    */
-  const FRONTEND_ADDRESS: string = "";
+  const FRONTEND_ADDRESS: string = "0x81a64a537E30EEE5d8012886D036E6353013aC08";
 
   /**
    * Mode switch:
